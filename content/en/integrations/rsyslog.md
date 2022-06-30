@@ -42,7 +42,7 @@ Configure Rsyslog to gather logs from your host, containers, & services.
 2. Create an `/etc/rsyslog.d/datadog.conf` file.
 
 {{< site-region region="us,us3,us5,gov">}}
-3. In `/etc/rsyslog.d/datadog.conf`, configure each log file you want to monitor:
+3. In `/etc/rsyslog.d/datadog.conf`, add the following configuration. You must include a separate `input` line for each log file you want to monitor:
 
     ```conf
     ## For each file to send
@@ -50,19 +50,14 @@ Configure Rsyslog to gather logs from your host, containers, & services.
 
     ## Set the Datadog Format to send the logs
     $template DatadogFormat,"<DATADOG_API_KEY> <%pri%>%protocol-version% %timestamp:::date-rfc3339% %HOSTNAME% %app-name% - - - %msg%\n"
-
-    ## Define the destination for the logs
-    ruleset(name="infiles") {
-        action(type="omfwd" target="intake.logs.datadoghq.com" protocol="tcp" port="10514" template="DatadogFormat")
-    }
     ```
 
 4. Add TLS Encryption to logs sent from Rsyslog to your Datadog account:
-   1. Install rsyslog-gnutls:
+   1. Install the `rsyslog-gnutls` and `ca-certificates` packages:
       ```shell
       sudo apt-get install rsyslog-gnutls ca-certificates
       ```
-   2. Modify your `/etc/rsyslog.d/datadog.conf` to end with the following content:
+   2. Add the following line to the bottom of your `/etc/rsyslog.d/datadog.conf` file:
       ```conf
       ## Define the destination for the logs
       $DefaultNetstreamDriverCAFile /etc/ssl/certs/ca-certificates.crt
@@ -73,7 +68,7 @@ Configure Rsyslog to gather logs from your host, containers, & services.
 {{< /site-region >}}
 
 {{< site-region region="eu" >}}
-3. In `/etc/rsyslog.d/datadog.conf`, configure each log file you want to monitor:
+3. In `/etc/rsyslog.d/datadog.conf`, add the following configuration. You must include a separate `input` line for each log file you want to monitor:
 
     ```conf
     ## For each file to send
@@ -81,20 +76,15 @@ Configure Rsyslog to gather logs from your host, containers, & services.
 
     ## Set the Datadog Format to send the logs
     $template DatadogFormat,"<DATADOG_API_KEY> <%pri%>%protocol-version% %timestamp:::date-rfc3339% %HOSTNAME% %app-name% - - - %msg%\n"
-
-    ## Define the destination for the logs
-    ruleset(name="infiles") {
-         action(type="omfwd" target="tcp-intake.logs.datadoghq.eu" protocol="tcp" port="1883" template="DatadogFormat")
-    }
     ```
 
 4. Add TLS Encryption to logs sent from Rsyslog to your Datadog account:
-   1. Install rsyslog-gnutls:
+   1. Install the `rsyslog-gnutls` and `ca-certificates` packages:
       ```shell
       sudo apt-get install rsyslog-gnutls ca-certificates
       ```
 
-   2. Modify your `/etc/rsyslog.d/datadog.conf` to end with the following content:
+   2. Add the following line to the bottom of your `/etc/rsyslog.d/datadog.conf` file:
       ```conf
       ## Define the destination for the logs
       $DefaultNetstreamDriverCAFile /etc/ssl/certs/ca-certificates.crt
@@ -158,7 +148,7 @@ Configure Rsyslog to gather logs from your host, containers, & services.
 2. Create an `/etc/rsyslog.d/datadog.conf` file.
 
 {{< site-region region="us,us3,us5,gov">}}
-3. In `/etc/rsyslog.d/datadog.conf`, configure each log file you want to monitor:
+3. In `/etc/rsyslog.d/datadog.conf`, add the following configuration. You must include a separate `input` line for each log file you want to monitor:
 
     ```conf
     ## For each file to send
@@ -166,22 +156,17 @@ Configure Rsyslog to gather logs from your host, containers, & services.
 
     ## Set the Datadog Format to send the logs
     $template DatadogFormat,"<DATADOG_API_KEY> <%pri%>%protocol-version% %timestamp:::date-rfc3339% %HOSTNAME% %app-name% - - - %msg%\n"
-
-    ## Define the destination for the logs
-    ruleset(name="infiles") {
-        action(type="omfwd" target="intake.logs.datadoghq.com" protocol="tcp" port="10514" template="DatadogFormat")
-    }
     ```
 
 4. Add TLS Encryption to logs sent from Rsyslog to your Datadog account:
-   1. Install rsyslog-gnutls:
+   1. Install the `rsyslog-gnutls` and `ca-certificates` packages:
       ```shell
       sudo yum install rsyslog-gnutls ca-certificates
       ```
-   2. Modify your `/etc/rsyslog.d/datadog.conf` to end with the following content:
+   2. Add the following line to the bottom of your `/etc/rsyslog.d/datadog.conf` file:
       ```conf
       ## Define the destination for the logs
-      $DefaultNetstreamDriverCAFile /etc/pki/ca-trust/extracted/openssl/ca-bundle.trust.crt
+      $DefaultNetstreamDriverCAFile /etc/pki/ca-trust/extracted/pem/tls-ca-bundle.pem
       ruleset(name="infiles") {
           action(type="omfwd" protocol="tcp" target="intake.logs.datadoghq.com" port="10516" template="DatadogFormat" StreamDriver="gtls"  StreamDriverMode="1" StreamDriverAuthMode="x509/name" StreamDriverPermittedPeers="*.logs.datadoghq.com" )
       }
@@ -189,7 +174,7 @@ Configure Rsyslog to gather logs from your host, containers, & services.
 {{< /site-region >}}
 
 {{< site-region region="eu" >}}
-3. In `/etc/rsyslog.d/datadog.conf`, configure each log file you want to monitor:
+3. In `/etc/rsyslog.d/datadog.conf`, add the following configuration. You must include a separate `input` line for each log file you want to monitor:
 
     ```conf
     ## For each file to send
@@ -197,23 +182,18 @@ Configure Rsyslog to gather logs from your host, containers, & services.
 
     ## Set the Datadog Format to send the logs
     $template DatadogFormat,"<DATADOG_API_KEY> <%pri%>%protocol-version% %timestamp:::date-rfc3339% %HOSTNAME% %app-name% - - - %msg%\n"
-
-    ## Define the destination for the logs
-    ruleset(name="infiles") {
-         action(type="omfwd" target="tcp-intake.logs.datadoghq.eu" protocol="tcp" port="1883" template="DatadogFormat")
-    }
     ```
 
 4. Add TLS Encryption to logs sent from Rsyslog to your Datadog account:
-   1. Install rsyslog-gnutls:
+   1. Install the `rsyslog-gnutls` and `ca-certificates` packages:
       ```shell
       sudo yum install rsyslog-gnutls ca-certificates
       ```
 
-   2. Modify your `/etc/rsyslog.d/datadog.conf` to end with the following content:
+   2. Add the following line to the bottom of your `/etc/rsyslog.d/datadog.conf` file:
       ```conf
       ## Define the destination for the logs
-      $DefaultNetstreamDriverCAFile /etc/pki/ca-trust/extracted/openssl/ca-bundle.trust.crt
+      $DefaultNetstreamDriverCAFile /etc/pki/ca-trust/extracted/pem/tls-ca-bundle.pem
       ruleset(name="infiles") {
           action(type="omfwd" protocol="tcp" target="tcp-intake.logs.datadoghq.eu" port="443" template="DatadogFormat" StreamDriver="gtls"      StreamDriverMode="1" StreamDriverAuthMode="x509/name" StreamDriverPermittedPeers="*.logs.datadoghq.eu" )
       }
@@ -274,7 +254,7 @@ Configure Rsyslog to gather logs from your host, containers, & services.
 2. Create an `/etc/rsyslog.d/datadog.conf` file.
 
 {{< site-region region="us,us3,us5,gov">}}
-3. In `/etc/rsyslog.d/datadog.conf`, configure each log file you want to monitor:
+3. In `/etc/rsyslog.d/datadog.conf`, add the following configuration. You must include a separate `input` line for each log file you want to monitor:
 
     ```conf
     ## For each file to send
@@ -282,22 +262,17 @@ Configure Rsyslog to gather logs from your host, containers, & services.
 
     ## Set the Datadog Format to send the logs
     $template DatadogFormat,"<DATADOG_API_KEY> <%pri%>%protocol-version% %timestamp:::date-rfc3339% %HOSTNAME% %app-name% - - - %msg%\n"
-
-    ## Define the destination for the logs
-    ruleset(name="infiles") {
-        action(type="omfwd" target="intake.logs.datadoghq.com" protocol="tcp" port="10514" template="DatadogFormat")
-    }
     ```
 
 4. Add TLS Encryption to logs sent from Rsyslog to your Datadog account:
-   1. Install rsyslog-gnutls:
+   1. Install the `rsyslog-gnutls` and `ca-certificates` packages:
       ```shell
       sudo dnf install rsyslog-gnutls ca-certificates
       ```
-   2. Modify your `/etc/rsyslog.d/datadog.conf` to end with the following content:
+   2. Add the following line to the bottom of your `/etc/rsyslog.d/datadog.conf` file:
       ```conf
       ## Define the destination for the logs
-      $DefaultNetstreamDriverCAFile /etc/pki/ca-trust/extracted/openssl/ca-bundle.trust.crt
+      $DefaultNetstreamDriverCAFile /etc/pki/ca-trust/extracted/pem/tls-ca-bundle.pem
       ruleset(name="infiles") {
           action(type="omfwd" protocol="tcp" target="intake.logs.datadoghq.com" port="10516" template="DatadogFormat" StreamDriver="gtls"  StreamDriverMode="1" StreamDriverAuthMode="x509/name" StreamDriverPermittedPeers="*.logs.datadoghq.com" )
       }
@@ -305,7 +280,7 @@ Configure Rsyslog to gather logs from your host, containers, & services.
 {{< /site-region >}}
 
 {{< site-region region="eu" >}}
-3. In `/etc/rsyslog.d/datadog.conf`, configure each log file you want to monitor:
+3. In `/etc/rsyslog.d/datadog.conf`, add the following configuration. You must include a separate `input` line for each log file you want to monitor:
 
     ```conf
     ## For each file to send
@@ -313,25 +288,20 @@ Configure Rsyslog to gather logs from your host, containers, & services.
 
     ## Set the Datadog Format to send the logs
     $template DatadogFormat,"<DATADOG_API_KEY> <%pri%>%protocol-version% %timestamp:::date-rfc3339% %HOSTNAME% %app-name% - - - %msg%\n"
-
-    ## Define the destination for the logs
-    ruleset(name="infiles") {
-         action(type="omfwd" target="tcp-intake.logs.datadoghq.eu" protocol="tcp" port="1883" template="DatadogFormat")
-    }
     ```
 
 4. Add TLS Encryption to logs sent from Rsyslog to your Datadog account:
-   1. Install rsyslog-gnutls:
+   1. Install the `rsyslog-gnutls` and `ca-certificates` packages:
       ```shell
       sudo dnf install rsyslog-gnutls ca-certificates
       ```
 
-   2. Modify your `/etc/rsyslog.d/datadog.conf` to end with the following content:
+   2. Add the following line to the bottom of your `/etc/rsyslog.d/datadog.conf` file:
       ```conf
       ## Define the destination for the logs
-      $DefaultNetstreamDriverCAFile /etc/pki/ca-trust/extracted/openssl/ca-bundle.trust.crt
+      $DefaultNetstreamDriverCAFile /etc/pki/ca-trust/extracted/pem/tls-ca-bundle.pem
       ruleset(name="infiles") {
-          action(type="omfwd" protocol="tcp" target="tcp-intake.logs.datadoghq.eu" port="443" template="DatadogFormat" StreamDriver="gtls"      StreamDriverMode="1" StreamDriverAuthMode="x509/name" StreamDriverPermittedPeers="*.logs.datadoghq.eu" )
+          action(type="omfwd" protocol="tcp" target="tcp-intake.logs.datadoghq.eu" port="443" template="DatadogFormat" StreamDriver="gtls" StreamDriverMode="1" StreamDriverAuthMode="x509/name" StreamDriverPermittedPeers="*.logs.datadoghq.eu" )
       }
        ```
 {{< /site-region >}}
@@ -416,13 +386,13 @@ Configure Rsyslog to gather logs from your host, containers, & services.
 4. (Optional) TLS Encryption:
    While sending your logs directly from Rsyslog to your Datadog account, if you want to add TLS encryption, take the following steps.
 
-    - Install rsyslog-gnutls:
+    - Install the `rsyslog-gnutls` and `ca-certificates` packages:
 
         ```shell
         sudo apt-get install rsyslog-gnutls ca-certificates
         ```
 
-    - Modify your `/etc/rsyslog.d/datadog.conf` to end with the following content:
+    - Add the following line to the bottom of your `/etc/rsyslog.d/datadog.conf` file:
 
         ```conf
         #Define the destination for the logs
@@ -522,13 +492,13 @@ Configure Rsyslog to gather logs from your host, containers, & services.
 4. (Optional) TLS Encryption:
    While sending your logs directly from Rsyslog to your Datadog account, if you want to add TLS encryption, take the following steps.
 
-    - Install rsyslog-gnutls:
+    - Install the `rsyslog-gnutls` and `ca-certificates` packages:
 
         ```shell
         sudo apt-get install rsyslog-gnutls ca-certificates
         ```
 
-    - Modify your `/etc/rsyslog.d/datadog.conf` to end with the following content:
+    - Add the following line to the bottom of your `/etc/rsyslog.d/datadog.conf` file:
 
         ```conf
         #Define the destination for the logs
