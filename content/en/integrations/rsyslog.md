@@ -41,7 +41,7 @@ Configure Rsyslog to gather logs from your host, containers, & services.
 
 2. Create an `/etc/rsyslog.d/datadog.conf` file.
 
-{{< site-region region="us,us3,us5,gov">}}
+
 3. In `/etc/rsyslog.d/datadog.conf`, add the following configuration. You must include a separate `input` line for each log file you want to monitor:
 
     ```conf
@@ -52,6 +52,7 @@ Configure Rsyslog to gather logs from your host, containers, & services.
     $template DatadogFormat,"<DATADOG_API_KEY> <%pri%>%protocol-version% %timestamp:::date-rfc3339% %HOSTNAME% %app-name% - - - %msg%\n"
     ```
 
+{{< site-region region="us,us3,us5,gov">}}
 4. Add TLS Encryption to logs sent from Rsyslog to your Datadog account:
    1. Install the `rsyslog-gnutls` and `ca-certificates` packages:
       ```shell
@@ -66,17 +67,7 @@ Configure Rsyslog to gather logs from your host, containers, & services.
       }
       ```
 {{< /site-region >}}
-
 {{< site-region region="eu" >}}
-3. In `/etc/rsyslog.d/datadog.conf`, add the following configuration. You must include a separate `input` line for each log file you want to monitor:
-
-    ```conf
-    ## For each file to send
-    input(type="imfile" ruleset="infiles" Tag="<APP_NAME_OF_FILE1>" File="<PATH_TO_FILE1>" StateFile="<UNIQUE_FILE_ID>")
-
-    ## Set the Datadog Format to send the logs
-    $template DatadogFormat,"<DATADOG_API_KEY> <%pri%>%protocol-version% %timestamp:::date-rfc3339% %HOSTNAME% %app-name% - - - %msg%\n"
-    ```
 
 4. Add TLS Encryption to logs sent from Rsyslog to your Datadog account:
    1. Install the `rsyslog-gnutls` and `ca-certificates` packages:
@@ -94,7 +85,7 @@ Configure Rsyslog to gather logs from your host, containers, & services.
        ```
 {{< /site-region >}}
 
-5. Restart Rsyslog and your new logs are forwarded directly to your Datadog account.
+5. Restart Rsyslog. Your new logs are forwarded directly to your Datadog account.
    ```shell
    sudo systemctl restart rsyslog
    ```
@@ -105,7 +96,7 @@ Configure Rsyslog to gather logs from your host, containers, & services.
    - If you specified a hostname in `datadog.conf` or `datadog.yaml`, replace the `%HOSTNAME%` value in `rsyslog.conf` to match your hostname.
    - If you did not specify a hostname in `datadog.conf` or `datadog.yaml`, you do not need to change anything.
 
-7. To get the best use out of your logs in Datadog, set a source for the logs. 
+7. To get the best use out of your logs in Datadog, set a source for the logs.
    - If you [forward your logs to the Datadog Agent][1], you can set the source in the Agent configuration file.
    - If you're not forwarding your logs to the Datadog Agent, create a distinct configuration file for each source in `/etc/rsyslog.d/`:
 
@@ -121,7 +112,7 @@ Configure Rsyslog to gather logs from your host, containers, & services.
      $template DatadogFormat,"<DATADOG_API_KEY> <%pri%>%protocol-version% %timestamp:::date-rfc3339% %HOSTNAME% %app-name% - - [metas  ddsource=\"<MY_SOURCE_NAME>\" ddtags=\"env:dev,<KEY:VALUE>\"] %msg%\n"
      ```
 
-8. (Optional) Datadog cuts inactive connections after a period of inactivity. Some Rsyslog versions are not able to reconnect properly when necessary. To mitigate this issue, use time markers so the connection never stops:
+8. (Optional) Datadog cuts inactive connections after a period of inactivity. Some versions of Rsyslog are not able to reconnect when necessary. To mitigate this issue, use time markers so the connection never stops:
    
    1. Add the following two lines to your Rsyslog configuration file:
 
@@ -147,7 +138,6 @@ Configure Rsyslog to gather logs from your host, containers, & services.
 
 2. Create an `/etc/rsyslog.d/datadog.conf` file.
 
-{{< site-region region="us,us3,us5,gov">}}
 3. In `/etc/rsyslog.d/datadog.conf`, add the following configuration. You must include a separate `input` line for each log file you want to monitor:
 
     ```conf
@@ -158,6 +148,7 @@ Configure Rsyslog to gather logs from your host, containers, & services.
     $template DatadogFormat,"<DATADOG_API_KEY> <%pri%>%protocol-version% %timestamp:::date-rfc3339% %HOSTNAME% %app-name% - - - %msg%\n"
     ```
 
+{{< site-region region="us,us3,us5,gov">}}
 4. Add TLS Encryption to logs sent from Rsyslog to your Datadog account:
    1. Install the `rsyslog-gnutls` and `ca-certificates` packages:
       ```shell
@@ -174,15 +165,6 @@ Configure Rsyslog to gather logs from your host, containers, & services.
 {{< /site-region >}}
 
 {{< site-region region="eu" >}}
-3. In `/etc/rsyslog.d/datadog.conf`, add the following configuration. You must include a separate `input` line for each log file you want to monitor:
-
-    ```conf
-    ## For each file to send
-    input(type="imfile" ruleset="infiles" Tag="<APP_NAME_OF_FILE1>" File="<PATH_TO_FILE1>" StateFile="<UNIQUE_FILE_ID>")
-
-    ## Set the Datadog Format to send the logs
-    $template DatadogFormat,"<DATADOG_API_KEY> <%pri%>%protocol-version% %timestamp:::date-rfc3339% %HOSTNAME% %app-name% - - - %msg%\n"
-    ```
 
 4. Add TLS Encryption to logs sent from Rsyslog to your Datadog account:
    1. Install the `rsyslog-gnutls` and `ca-certificates` packages:
@@ -227,7 +209,7 @@ Configure Rsyslog to gather logs from your host, containers, & services.
      $template DatadogFormat,"<DATADOG_API_KEY> <%pri%>%protocol-version% %timestamp:::date-rfc3339% %HOSTNAME% %app-name% - - [metas  ddsource=\"<MY_SOURCE_NAME>\" ddtags=\"env:dev,<KEY:VALUE>\"] %msg%\n"
      ```
 
-8. (Optional) Datadog cuts inactive connections after a period of inactivity. Some Rsyslog versions are not able to reconnect properly when necessary. To mitigate this issue, use time markers so the connection never stops:
+8. (Optional) Datadog cuts inactive connections after a period of inactivity. Some versions of Rsyslog are not able to reconnect when necessary. To mitigate this issue, use time markers so the connection never stops:
    
    1. Add the following two lines to your Rsyslog configuration file:
 
@@ -253,7 +235,7 @@ Configure Rsyslog to gather logs from your host, containers, & services.
 
 2. Create an `/etc/rsyslog.d/datadog.conf` file.
 
-{{< site-region region="us,us3,us5,gov">}}
+
 3. In `/etc/rsyslog.d/datadog.conf`, add the following configuration. You must include a separate `input` line for each log file you want to monitor:
 
     ```conf
@@ -264,6 +246,7 @@ Configure Rsyslog to gather logs from your host, containers, & services.
     $template DatadogFormat,"<DATADOG_API_KEY> <%pri%>%protocol-version% %timestamp:::date-rfc3339% %HOSTNAME% %app-name% - - - %msg%\n"
     ```
 
+{{< site-region region="us,us3,us5,gov">}}
 4. Add TLS Encryption to logs sent from Rsyslog to your Datadog account:
    1. Install the `rsyslog-gnutls` and `ca-certificates` packages:
       ```shell
@@ -280,15 +263,6 @@ Configure Rsyslog to gather logs from your host, containers, & services.
 {{< /site-region >}}
 
 {{< site-region region="eu" >}}
-3. In `/etc/rsyslog.d/datadog.conf`, add the following configuration. You must include a separate `input` line for each log file you want to monitor:
-
-    ```conf
-    ## For each file to send
-    input(type="imfile" ruleset="infiles" Tag="<APP_NAME_OF_FILE1>" File="<PATH_TO_FILE1>" StateFile="<UNIQUE_FILE_ID>")
-
-    ## Set the Datadog Format to send the logs
-    $template DatadogFormat,"<DATADOG_API_KEY> <%pri%>%protocol-version% %timestamp:::date-rfc3339% %HOSTNAME% %app-name% - - - %msg%\n"
-    ```
 
 4. Add TLS Encryption to logs sent from Rsyslog to your Datadog account:
    1. Install the `rsyslog-gnutls` and `ca-certificates` packages:
@@ -306,7 +280,7 @@ Configure Rsyslog to gather logs from your host, containers, & services.
        ```
 {{< /site-region >}}
 
-5. Restart Rsyslog and your new logs are forwarded directly to your Datadog account.
+5. Restart Rsyslog. Your new logs are forwarded directly to your Datadog account.
    ```shell
    sudo systemctl restart rsyslog
    ```
@@ -333,7 +307,7 @@ Configure Rsyslog to gather logs from your host, containers, & services.
      $template DatadogFormat,"<DATADOG_API_KEY> <%pri%>%protocol-version% %timestamp:::date-rfc3339% %HOSTNAME% %app-name% - - [metas  ddsource=\"<MY_SOURCE_NAME>\" ddtags=\"env:dev,<KEY:VALUE>\"] %msg%\n"
      ```
 
-8. (Optional) Datadog cuts inactive connections after a period of inactivity. Some Rsyslog versions are not able to reconnect properly when necessary. To mitigate this issue, use time markers so the connection never stops:
+8. (Optional) Datadog cuts inactive connections after a period of inactivity. Some versions of Rsyslog are not able to reconnect when necessary. To mitigate this issue, use time markers so the connection never stops:
    
    1. Add the following two lines to your Rsyslog configuration file:
 
@@ -365,8 +339,9 @@ Configure Rsyslog to gather logs from your host, containers, & services.
     $WorkDirectory /var/spool/rsyslog
     ```
 
-2. Create a `/etc/rsyslog.d/datadog.conf` file.
-3. Set the log files to monitor and configure the destination endpoint. Add the following in `/etc/rsyslog.d/datadog.conf`.
+2. Create an `/etc/rsyslog.d/datadog.conf` file.
+
+3. In `/etc/rsyslog.d/datadog.conf`, add the following configuration. You must include a separate `Input` stanza for each log file you want to monitor:
 
     ```conf
     ## Input for FILE1
@@ -378,25 +353,21 @@ Configure Rsyslog to gather logs from your host, containers, & services.
 
     ## Set the Datadog Format to send the logs
     $template DatadogFormat,"<DATADOG_API_KEY> <%pri%>%protocol-version% %timestamp:::date-rfc3339% %HOSTNAME% %app-name% - - - %msg%\n"
-
-    ## Define the destination for the logs
-    *.* @@intake.logs.datadoghq.com:10514;DatadogFormat
     ```
+    
+{{< site-region region="us,us3,us5,gov">}}
+4. Add TLS Encryption to logs sent from Rsyslog to your Datadog account:
 
-4. (Optional) TLS Encryption:
-   While sending your logs directly from Rsyslog to your Datadog account, if you want to add TLS encryption, take the following steps.
-
-    - Install the `rsyslog-gnutls` and `ca-certificates` packages:
+    1. Install the `rsyslog-gnutls` and `ca-certificates` packages:
 
         ```shell
         sudo apt-get install rsyslog-gnutls ca-certificates
         ```
 
-    - Add the following line to the bottom of your `/etc/rsyslog.d/datadog.conf` file:
+    2. Add the following line to the bottom of your `/etc/rsyslog.d/datadog.conf` file:
 
         ```conf
         #Define the destination for the logs
-
         $DefaultNetstreamDriverCAFile /etc/ssl/certs/ca-certificates.crt
         $ActionSendStreamDriver gtls
         $ActionSendStreamDriverMode 1
@@ -404,101 +375,19 @@ Configure Rsyslog to gather logs from your host, containers, & services.
         $ActionSendStreamDriverPermittedPeer *.logs.datadoghq.com
         *.* @@intake.logs.datadoghq.com:10516;DatadogFormat
         ```
+{{< /site-region >}}
 
-5. Restart Rsyslog and your new logs are forwarded directly to your Datadog account.
+{{< site-region region="eu" >}}
 
-    ```shell
-    sudo service rsyslog restart
-    ```
+4. Add TLS Encryption to logs sent from Rsyslog to your Datadog account:
 
-6. Associate those logs with the host metrics and tags.
-   To make sure these logs are associated with the metrics and tags from the same host in your Datadog account, set the same `HOSTNAME` in your `rsyslog.conf` so that its value matches the hostname of your Datadog metrics.
-   **Note**: If you did not specify any hostname in your configuration file for the metrics using `datadog.conf` or `datadog.yaml`, you do not need to change anything. If you did specify a custom hostname for your metric, make sure to replace the **%HOSTNAME%** value in the format to match the same custom name.
-
-7. Use Datadog integrations.
-   To get the best use out of your logs in Datadog, set the source on your logs. The source can be set directly in the Agent if you forward your logs to the Datadog Agent.
-
-    Otherwise you need a specific format per log source which means you need a specific configuration file per source in `/etc/rsyslog.d/`.
-
-    To set the source, use the following format (if you have several sources, change the name of the format in each file):
-
-    ```conf
-    $template DatadogFormat,"<DATADOG_API_KEY> <%pri%>%protocol-version% %timestamp:::date-rfc3339% %HOSTNAME% %app-name% - - [metas ddsource=\"<MY_SOURCE_NAME>\"] %msg%\n"
-    ```
-
-    You can also add custom tags with the `ddtags` attribute:
-
-    ```conf
-    $template DatadogFormat,"<DATADOG_API_KEY> <%pri%>%protocol-version% %timestamp:::date-rfc3339% %HOSTNAME% %app-name% - - [metas ddsource=\"<MY_SOURCE_NAME>\" ddtags=\"env:dev,<KEY:VALUE>\"] %msg%\n"
-    ```
-
-8. (Optional) Datadog cuts inactive connections after a period of inactivity. Some Rsyslog versions are not able to reconnect properly when necessary. To mitigate this issue, use time markers so the connection never stops:
-   
-   1. Add the following two lines to your Rsyslog configuration:
-
-      ```conf
-      $ModLoad immark
-      $MarkMessagePeriod 20
-      ```
-
-   2. Restart the Rsyslog service:
-
-      ```shell
-      sudo service rsyslog restart
-      ```
-{{% /tab %}}
-
-{{% tab "Amazon Linux, CentOS, and Red Hat" %}}
-{{% /tab %}}
-
-{{% tab "Fedora" %}}
-{{% /tab %}}
-
-{{< /tabs >}}
-
-
-
-{{% /tab %}}
-
-{{% tab "Datadog EU site" %}}
-
-1. Activate the `imfile` module to monitor specific log files. To add the `imfile` module, add the following to your `rsyslog.conf`:
-
-    ```conf
-    $ModLoad imfile
-    $InputFilePollInterval 10
-    $PrivDropToGroup adm
-    $WorkDirectory /var/spool/rsyslog
-    ```
-
-2. Create a `/etc/rsyslog.d/datadog.conf` file.
-3. Set the log files to monitor and configure the destination endpoint. Add the following in `/etc/rsyslog.d/datadog.conf`.
-
-    ```conf
-    ## Input for FILE1
-    $InputFileName /<PATH_TO_FILE1>
-    $InputFileTag <APP_NAME_OF_FILE1>
-    $InputFileStateFile <UNIQUE_FILE_ID>
-    $InputFileSeverity info
-    $InputRunFileMonitor
-
-    ## Set the Datadog Format to send the logs
-    $template DatadogFormat,"<DATADOG_API_KEY> <%pri%>%protocol-version% %timestamp:::date-rfc3339% %HOSTNAME% %app-name% - - - %msg%\n"
-
-    ## Define the destination for the logs
-    *.* @@tcp-intake.logs.datadoghq.eu:1883;DatadogFormat
-    ```
-
-4. (Optional) TLS Encryption:
-   While sending your logs directly from Rsyslog to your Datadog account, if you want to add TLS encryption, take the following steps.
-
-    - Install the `rsyslog-gnutls` and `ca-certificates` packages:
+    1. Install the `rsyslog-gnutls` and `ca-certificates` packages:
 
         ```shell
         sudo apt-get install rsyslog-gnutls ca-certificates
         ```
 
-    - Add the following line to the bottom of your `/etc/rsyslog.d/datadog.conf` file:
+    2. Add the following line to the bottom of your `/etc/rsyslog.d/datadog.conf` file:
 
         ```conf
         #Define the destination for the logs
@@ -510,35 +399,38 @@ Configure Rsyslog to gather logs from your host, containers, & services.
         $ActionSendStreamDriverPermittedPeer *.logs.datadoghq.eu
         *.* @@tcp-intake.logs.datadoghq.eu:443;DatadogFormat
         ```
+{{< /site-region >}}
 
-5. Restart Rsyslog and your new logs are forwarded directly to your Datadog account.
+5. Restart Rsyslog. Your new logs are forwarded directly to your Datadog account.
 
     ```shell
-    sudo service rsyslog restart
+    sudo systemctl restart rsyslog
     ```
 
-6. Associate those logs with the host metrics and tags.
-   To make sure these logs are associated with the metrics and tags from the same host in your Datadog account, set the same `HOSTNAME` in your `rsyslog.conf` so that its value matches the hostname of your Datadog metrics.
-   **Note**: If you did not specify any hostname in your configuration file for the metrics using `datadog.conf` or `datadog.yaml`, you do not need to change anything. If you did specify a custom hostname for your metric, make sure to replace the **%HOSTNAME%** value in the format to match the same custom name.
+6. Associate your logs with the host metrics and tags:
+   
+   To make sure that your logs are associated with the metrics and tags from the same host in your Datadog account, set the `HOSTNAME` in your `rsyslog.conf` to match the hostname of your Datadog metrics.
 
-7. Use Datadog integrations.
-   To get the best use out of your logs in Datadog, set the source on your logs. The source can be set directly in the Agent if you forward your logs to the Datadog Agent.
+   - If you specified a hostname in `datadog.conf` or `datadog.yaml`, replace the `%HOSTNAME%` value in `rsyslog.conf` to match your hostname.
+   - If you did not specify a hostname in `datadog.conf` or `datadog.yaml`, you do not need to change anything.
 
-    Otherwise you need a specific format per log source which means you need a specific configuration file per source in `/etc/rsyslog.d/`.
+7. To get the best use out of your logs in Datadog, set a source for the logs.
+   - If you [forward your logs to the Datadog Agent][1], you can set the source in the Agent configuration file.
+   - If you're not forwarding your logs to the Datadog Agent, create a distinct configuration file for each source in `/etc/rsyslog.d/`:
 
-    To set the source, use the following format (if you have several sources, change the name of the format in each file):
+   To set the source, use the following format (if you have several sources, change the name of the format in each file):
 
-    ```conf
-    $template DatadogFormat,"<DATADOG_API_KEY> <%pri%>%protocol-version% %timestamp:::date-rfc3339% %HOSTNAME% %app-name% - - [metas ddsource=\"<MY_SOURCE_NAME>\"] %msg%\n"
-    ```
+   ```conf
+   $template DatadogFormat,"<DATADOG_API_KEY> <%pri%>%protocol-version% %timestamp:::date-rfc3339% %HOSTNAME% %app-name% - - [metas ddsource=\"<MY_SOURCE_NAME>\"] %msg%\n"
+   ```
 
-    You can also add custom tags with the `ddtags` attribute:
+   You can also add custom tags with the `ddtags` attribute:
 
-    ```conf
-    $template DatadogFormat,"<DATADOG_API_KEY> <%pri%>%protocol-version% %timestamp:::date-rfc3339% %HOSTNAME% %app-name% - - [metas ddsource=\"<MY_SOURCE_NAME>\" ddtags=\"env:dev,<KEY:VALUE>\"] %msg%\n"
-    ```
+   ```conf
+   $template DatadogFormat,"<DATADOG_API_KEY> <%pri%>%protocol-version% %timestamp:::date-rfc3339% %HOSTNAME% %app-name% - - [metas ddsource=\"<MY_SOURCE_NAME>\" ddtags=\"env:dev,<KEY:VALUE>\"] %msg%\n"
+   ```
 
-8. (Optional) Datadog cuts inactive connections after a period of inactivity. Some Rsyslog versions are not able to reconnect properly when necessary. To mitigate this issue, use time markers so the connection never stops:
+8. (Optional) Datadog cuts inactive connections after a period of inactivity. Some versions of Rsyslog are not able to reconnect when necessary. To mitigate this issue, use time markers so the connection never stops:
    
    1. Add the following two lines to your Rsyslog configuration:
 
@@ -550,8 +442,249 @@ Configure Rsyslog to gather logs from your host, containers, & services.
    2. Restart the Rsyslog service:
 
       ```shell
-      sudo service rsyslog restart
+      sudo systemctl restart rsyslog
       ```
+
+[1]: /agent/logs/
+{{% /tab %}}
+
+{{% tab "Amazon Linux, CentOS, and Red Hat" %}}
+1. Activate the `imfile` module to monitor specific log files. To add the `imfile` module, add the following to your `rsyslog.conf`:
+
+    ```conf
+    $ModLoad imfile
+    $InputFilePollInterval 10
+    $PrivDropToGroup adm
+    $WorkDirectory /var/spool/rsyslog
+    ```
+
+2. Create an `/etc/rsyslog.d/datadog.conf` file.
+
+3. In `/etc/rsyslog.d/datadog.conf`, add the following configuration. You must include a separate `Input` stanza for each log file you want to monitor:
+
+    ```conf
+    ## Input for FILE1
+    $InputFileName /<PATH_TO_FILE1>
+    $InputFileTag <APP_NAME_OF_FILE1>
+    $InputFileStateFile <UNIQUE_FILE_ID>
+    $InputFileSeverity info
+    $InputRunFileMonitor
+
+    ## Set the Datadog Format to send the logs
+    $template DatadogFormat,"<DATADOG_API_KEY> <%pri%>%protocol-version% %timestamp:::date-rfc3339% %HOSTNAME% %app-name% - - - %msg%\n"
+    ```
+
+{{< site-region region="us,us3,us5,gov">}}
+4. Add TLS Encryption to logs sent from Rsyslog to your Datadog account:
+
+    1. Install the `rsyslog-gnutls` and `ca-certificates` packages:
+
+        ```shell
+        sudo yum install rsyslog-gnutls ca-certificates
+        ```
+
+    2. Add the following line to the bottom of your `/etc/rsyslog.d/datadog.conf` file:
+
+        ```conf
+        #Define the destination for the logs
+        $DefaultNetstreamDriverCAFile /etc/pki/ca-trust/extracted/pem/tls-ca-bundle.pem
+        $ActionSendStreamDriver gtls
+        $ActionSendStreamDriverMode 1
+        $ActionSendStreamDriverAuthMode x509/name
+        $ActionSendStreamDriverPermittedPeer *.logs.datadoghq.com
+        *.* @@intake.logs.datadoghq.com:10516;DatadogFormat
+        ```
+{{< /site-region >}}
+
+{{< site-region region="eu" >}}
+4. Add TLS Encryption to logs sent from Rsyslog to your Datadog account:
+
+    1. Install the `rsyslog-gnutls` and `ca-certificates` packages:
+
+        ```shell
+        sudo yum install rsyslog-gnutls ca-certificates
+        ```
+
+    2. Add the following line to the bottom of your `/etc/rsyslog.d/datadog.conf` file:
+
+        ```conf
+        #Define the destination for the logs
+
+        $DefaultNetstreamDriverCAFile /etc/pki/ca-trust/extracted/pem/tls-ca-bundle.pem
+        $ActionSendStreamDriver gtls
+        $ActionSendStreamDriverMode 1
+        $ActionSendStreamDriverAuthMode x509/name
+        $ActionSendStreamDriverPermittedPeer *.logs.datadoghq.eu
+        *.* @@tcp-intake.logs.datadoghq.eu:443;DatadogFormat
+        ```
+{{< /site-region >}}
+
+5. Restart Rsyslog. Your new logs are forwarded directly to your Datadog account.
+
+    ```shell
+    sudo systemctl restart rsyslog
+    ```
+
+6. Associate your logs with the host metrics and tags:
+   
+   To make sure that your logs are associated with the metrics and tags from the same host in your Datadog account, set the `HOSTNAME` in your `rsyslog.conf` to match the hostname of your Datadog metrics.
+
+   - If you specified a hostname in `datadog.conf` or `datadog.yaml`, replace the `%HOSTNAME%` value in `rsyslog.conf` to match your hostname.
+   - If you did not specify a hostname in `datadog.conf` or `datadog.yaml`, you do not need to change anything.
+
+7. To get the best use out of your logs in Datadog, set a source for the logs.
+   - If you [forward your logs to the Datadog Agent][1], you can set the source in the Agent configuration file.
+   - If you're not forwarding your logs to the Datadog Agent, create a distinct configuration file for each source in `/etc/rsyslog.d/`:
+
+   To set the source, use the following format (if you have several sources, change the name of the format in each file):
+
+   ```conf
+   $template DatadogFormat,"<DATADOG_API_KEY> <%pri%>%protocol-version% %timestamp:::date-rfc3339% %HOSTNAME% %app-name% - - [metas ddsource=\"<MY_SOURCE_NAME>\"] %msg%\n"
+   ```
+
+   You can also add custom tags with the `ddtags` attribute:
+
+   ```conf
+   $template DatadogFormat,"<DATADOG_API_KEY> <%pri%>%protocol-version% %timestamp:::date-rfc3339% %HOSTNAME% %app-name% - - [metas ddsource=\"<MY_SOURCE_NAME>\" ddtags=\"env:dev,<KEY:VALUE>\"] %msg%\n"
+   ```
+
+8. (Optional) Datadog cuts inactive connections after a period of inactivity. Some versions of Rsyslog are not able to reconnect when necessary. To mitigate this issue, use time markers so the connection never stops:
+   
+   1. Add the following two lines to your Rsyslog configuration:
+
+      ```conf
+      $ModLoad immark
+      $MarkMessagePeriod 20
+      ```
+
+   2. Restart the Rsyslog service:
+
+      ```shell
+      sudo systemctl restart rsyslog
+      ```
+[1]: /agent/logs/
+{{% /tab %}}
+
+{{% tab "Fedora" %}}
+1. Activate the `imfile` module to monitor specific log files. To add the `imfile` module, add the following to your `rsyslog.conf`:
+
+    ```conf
+    $ModLoad imfile
+    $InputFilePollInterval 10
+    $PrivDropToGroup adm
+    $WorkDirectory /var/spool/rsyslog
+    ```
+
+2. Create an `/etc/rsyslog.d/datadog.conf` file.
+
+3. In `/etc/rsyslog.d/datadog.conf`, add the following configuration. You must include a separate `Input` stanza for each log file you want to monitor:
+
+    ```conf
+    ## Input for FILE1
+    $InputFileName /<PATH_TO_FILE1>
+    $InputFileTag <APP_NAME_OF_FILE1>
+    $InputFileStateFile <UNIQUE_FILE_ID>
+    $InputFileSeverity info
+    $InputRunFileMonitor
+
+    ## Set the Datadog Format to send the logs
+    $template DatadogFormat,"<DATADOG_API_KEY> <%pri%>%protocol-version% %timestamp:::date-rfc3339% %HOSTNAME% %app-name% - - - %msg%\n"
+    ```
+
+{{< site-region region="us,us3,us5,gov">}}
+4. Add TLS Encryption to logs sent from Rsyslog to your Datadog account:
+
+    1. Install the `rsyslog-gnutls` and `ca-certificates` packages:
+
+        ```shell
+        sudo dnf install rsyslog-gnutls ca-certificates
+        ```
+
+    2. Add the following line to the bottom of your `/etc/rsyslog.d/datadog.conf` file:
+
+        ```conf
+        #Define the destination for the logs
+        $DefaultNetstreamDriverCAFile /etc/pki/ca-trust/extracted/pem/tls-ca-bundle.pem
+        $ActionSendStreamDriver gtls
+        $ActionSendStreamDriverMode 1
+        $ActionSendStreamDriverAuthMode x509/name
+        $ActionSendStreamDriverPermittedPeer *.logs.datadoghq.com
+        *.* @@intake.logs.datadoghq.com:10516;DatadogFormat
+        ```
+{{< /site-region >}}
+
+{{< site-region region="eu" >}}
+
+4. Add TLS Encryption to logs sent from Rsyslog to your Datadog account:
+
+    1. Install the `rsyslog-gnutls` and `ca-certificates` packages:
+
+        ```shell
+        sudo dnf install rsyslog-gnutls ca-certificates
+        ```
+
+    2. Add the following line to the bottom of your `/etc/rsyslog.d/datadog.conf` file:
+
+        ```conf
+        #Define the destination for the logs
+
+        $DefaultNetstreamDriverCAFile /etc/pki/ca-trust/extracted/pem/tls-ca-bundle.pem
+        $ActionSendStreamDriver gtls
+        $ActionSendStreamDriverMode 1
+        $ActionSendStreamDriverAuthMode x509/name
+        $ActionSendStreamDriverPermittedPeer *.logs.datadoghq.eu
+        *.* @@tcp-intake.logs.datadoghq.eu:443;DatadogFormat
+        ```
+{{< /site-region >}}
+
+5. Restart Rsyslog. Your new logs are forwarded directly to your Datadog account.
+
+    ```shell
+    sudo systemctl restart rsyslog
+    ```
+
+6. Associate your logs with the host metrics and tags:
+   
+   To make sure that your logs are associated with the metrics and tags from the same host in your Datadog account, set the `HOSTNAME` in your `rsyslog.conf` to match the hostname of your Datadog metrics.
+
+   - If you specified a hostname in `datadog.conf` or `datadog.yaml`, replace the `%HOSTNAME%` value in `rsyslog.conf` to match your hostname.
+   - If you did not specify a hostname in `datadog.conf` or `datadog.yaml`, you do not need to change anything.
+
+7. To get the best use out of your logs in Datadog, set a source for the logs.
+   - If you [forward your logs to the Datadog Agent][1], you can set the source in the Agent configuration file.
+   - If you're not forwarding your logs to the Datadog Agent, create a distinct configuration file for each source in `/etc/rsyslog.d/`:
+
+   To set the source, use the following format (if you have several sources, change the name of the format in each file):
+
+   ```conf
+   $template DatadogFormat,"<DATADOG_API_KEY> <%pri%>%protocol-version% %timestamp:::date-rfc3339% %HOSTNAME% %app-name% - - [metas ddsource=\"<MY_SOURCE_NAME>\"] %msg%\n"
+   ```
+
+   You can also add custom tags with the `ddtags` attribute:
+
+   ```conf
+   $template DatadogFormat,"<DATADOG_API_KEY> <%pri%>%protocol-version% %timestamp:::date-rfc3339% %HOSTNAME% %app-name% - - [metas ddsource=\"<MY_SOURCE_NAME>\" ddtags=\"env:dev,<KEY:VALUE>\"] %msg%\n"
+   ```
+
+8. (Optional) Datadog cuts inactive connections after a period of inactivity. Some versions of Rsyslog are not able to reconnect when necessary. To mitigate this issue, use time markers so the connection never stops:
+   
+   1. Add the following two lines to your Rsyslog configuration:
+
+      ```conf
+      $ModLoad immark
+      $MarkMessagePeriod 20
+      ```
+
+   2. Restart the Rsyslog service:
+
+      ```shell
+      sudo systemctl restart rsyslog
+      ```
+
+[1]: /agent/logs/
+{{% /tab %}}
+
+{{< /tabs >}}
 
 ## Troubleshooting
 
