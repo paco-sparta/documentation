@@ -114,7 +114,7 @@ You can send the notification to different teams using the `CODEOWNERS` informat
 
 In the following example we are configuring the notification with the next logic:
 * If the test code owner is `@MyOrg/my-team`, then send the notification to the `my-team-channel` Slack channel.
-* If the test code owner is `@MyOrg/my-other-team`,  then send the notification to the `my-other-team-channel` Slack channel.
+* If the test code owner is `@MyOrg/my-other-team`, then send the notification to the `my-other-team-channel` Slack channel.
 
 {{< code-block lang="text" >}}
 {{#is_match "{{citest.attributes.test.codeowners}}" "@MyOrg/my-team"}}
